@@ -1,12 +1,12 @@
-# Feature Specification: [FEATURE NAME]
+# Feature Specification: FMVP RSS Feed Reader - Subscription Management
 
-**Feature Branch**: `[###-feature-name]`
+**Feature Branch**: `[003-rss-subscriptions]`
 
-**Created**: [DATE]
+**Created**: 19-08-2026
 
 **Status**: Draft
 
-**Input**: User description: "$ARGUMENTS"
+**Input**: User description: Adicionar assinaturas de feeds RSS com atualização manual, suporte a RSS/Atom, exibição dos itens e tratamento de erros amigável.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -23,109 +23,119 @@
   - Demonstrated to users independently
 -->
 
-### User Story 1 - [Brief Title] (Priority: P1)
+História de Usuário 1 - Adicionar Assinatura de Feed RSS (Prioridade: P1)
+Como usuário,
 
-[Describe this user journey in plain language]
+Quero adicionar URLs de feeds RSS ou Atom à minha lista de assinaturas,
 
-**Why this priority**: [Explain the value and why it has this priority level]
+Para que eu possa acompanhar atualizações dos meus sites e blogs favoritos em um único lugar.
 
-**Independent Test**: [Describe how this can be tested independently - e.g., "Can be fully tested by [specific action] and delivers [specific value]"]
+Por que esta prioridade: Adicionar assinaturas é a funcionalidade principal do MVP. Sem essa capacidade, o usuário não consegue utilizar o objetivo básico da aplicação, que é acompanhar conteúdos de feeds RSS.
 
-**Acceptance Scenarios**:
+Teste Independente: A funcionalidade pode ser testada de forma independente informando URLs válidas e inválidas de feeds RSS/Atom, verificando se as assinaturas válidas são armazenadas e exibidas corretamente e se entradas inválidas são rejeitadas com mensagens apropriadas.
 
-1. **Given** [initial state], **When** [action], **Then** [expected outcome]
-2. **Given** [initial state], **When** [action], **Then** [expected outcome]
+Cenários de Aceitação:
 
----
+Dado que a aplicação está em execução e a lista de assinaturas está vazia, Quando o usuário informa uma URL válida de feed RSS e a envia, Então a assinatura é adicionada com sucesso e exibida na lista.
+Dado que o usuário informa uma URL inválida ou malformada, Quando tenta adicionar a assinatura, Então a aplicação exibe uma mensagem de validação e não salva a assinatura.
 
-### User Story 2 - [Brief Title] (Priority: P2)
+Dado que uma assinatura foi adicionada com sucesso, Quando o usuário reinicia a aplicação, Então a assinatura permanece disponível e visível na lista.
 
-[Describe this user journey in plain language]
+Dado que o usuário informa um valor vazio ou contendo apenas espaços em branco, Quando tenta adicionar a assinatura, Então a aplicação impede o envio e exibe uma mensagem de validação
 
-**Why this priority**: [Explain the value and why it has this priority level]
 
-**Independent Test**: [Describe how this can be tested independently]
+História de Usuário 2 - Atualizar Feeds (Prioridade: P2)
+Como usuário, quero atualizar meus feeds RSS para visualizar as publicações mais recentes.
 
-**Acceptance Scenarios**:
+Justificativa da Prioridade: Após cadastrar assinaturas, a capacidade de obter novos conteúdos é essencial para manter as informações atualizadas.
 
-1. **Given** [initial state], **When** [action], **Then** [expected outcome]
+Teste Independente: Adicionar uma assinatura válida e executar a ação de atualização, verificando se os itens mais recentes são exibidos.
 
----
+Cenários de Aceitação:
 
-### User Story 3 - [Brief Title] (Priority: P3)
+Dado que o usuário possui uma assinatura cadastrada, Quando solicitar a atualização do feed, Então os itens mais recentes devem ser recuperados e exibidos.
+Dado que o feed está indisponível, Quando o usuário tentar atualizá-lo, Então uma mensagem de erro apropriada deve ser apresentada.
 
-[Describe this user journey in plain language]
 
-**Why this priority**: [Explain the value and why it has this priority level]
+História de Usuário 3 - Manter Assinaturas Após Reinicialização (Prioridade: P3)
+Como usuário,
 
-**Independent Test**: [Describe how this can be tested independently]
+Quero que minhas assinaturas sejam mantidas mesmo após fechar e reabrir a aplicação,
 
-**Acceptance Scenarios**:
+Para que eu não precise cadastrá-las novamente sempre que utilizar o sistema.
 
-1. **Given** [initial state], **When** [action], **Then** [expected outcome]
+Por que esta prioridade: A persistência de dados melhora significativamente a experiência do usuário, mas depende da implementação das funcionalidades básicas de cadastro e visualização de assinaturas. Por isso, possui prioridade inferior às funcionalidades essenciais do MVP.
 
----
+Teste Independente: A funcionalidade pode ser testada adicionando uma ou mais assinaturas, fechando a aplicação, iniciando-a novamente e verificando se todas as assinaturas permanecem disponíveis.
 
-[Add more user stories as needed, each with an assigned priority]
+Cenários de Aceitação:
+
+Dado que o usuário adicionou uma ou mais assinaturas, Quando a aplicação é encerrada e iniciada novamente, Então todas as assinaturas anteriormente cadastradas continuam disponíveis.
+Dado que existem assinaturas armazenadas, Quando o usuário acessa a aplicação, Então a lista de assinaturas é carregada automaticamente.
+
+Dado que nenhuma assinatura foi cadastrada anteriormente, Quando a aplicação é iniciada, Então uma lista vazia é exibida sem apresentar erros.
+
+
 
 ### Edge Cases
 
-<!--
-  ACTION REQUIRED: The content in this section represents placeholders.
-  Fill them out with the right edge cases.
--->
+- Quando um feed for acessível, mas não contiver itens, o sistema deve exibir:
+  "Nenhum item encontrado."
 
-- What happens when [boundary condition]?
-- How does system handle [error scenario]?
+- Quando o feed não responder dentro do tempo esperado, o sistema deve exibir:
+  "Não foi possível acessar o feed."
+
+- Quando a URL estiver vazia ou exceder 2048 caracteres, o sistema não deve criar a assinatura e deve exibir uma mensagem orientando o usuário a informar uma URL válida.
+
+- Quando o conteúdo não estiver em formato RSS ou Atom reconhecido, o sistema deve exibir:
+  "O formato do feed não é compatível."
+
+- Quando ocorrer uma falha durante a atualização manual, os itens já exibidos devem permanecer disponíveis e o sistema deve informar que a atualização falhou.
+
 
 ## Requirements *(mandatory)*
 
-<!--
-  ACTION REQUIRED: The content in this section represents placeholders.
-  Fill them out with the right functional requirements.
--->
 
 ### Functional Requirements
 
-- **FR-001**: System MUST [specific capability, e.g., "allow users to create accounts"]
-- **FR-002**: System MUST [specific capability, e.g., "validate email addresses"]
-- **FR-003**: Users MUST be able to [key interaction, e.g., "reset their password"]
-- **FR-004**: System MUST [data requirement, e.g., "persist user preferences"]
-- **FR-005**: System MUST [behavior, e.g., "log all security events"]
+- **FR-001**: O sistema deve permitir ao usuário informar a URL de um feed RSS ou Atom.
+- **FR-002**: O sistema deve rejeitar URLs vazias ou com mais de 2048 caracteres.
+- **FR-003**: O sistema deve adicionar uma URL válida à lista de assinaturas.
+- **FR-004**: O sistema não deve permitir assinaturas duplicadas para a mesma URL.
+- **FR-005**: O sistema deve exibir a lista de assinaturas cadastradas.
+- **FR-006**: O sistema deve permitir atualizar manualmente uma assinatura.
+- **FR-007**: O sistema deve interpretar feeds nos formatos RSS e Atom.
+- **FR-008**: O sistema deve exibir o título, a data, o resumo e o link de cada item do feed quando essas informações estiverem disponíveis.
+- **FR-009**: O sistema deve informar quando um feed não puder ser acessado ou interpretado.
+- **FR-010**: O sistema deve manter os itens já exibidos quando uma atualização manual falhar.
 
-*Example of marking unclear requirements:*
-
-- **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
-- **FR-007**: System MUST retain user data for [NEEDS CLARIFICATION: retention period not specified]
 
 ### Key Entities *(include if feature involves data)*
 
-- **[Entity 1]**: [What it represents, key attributes without implementation]
-- **[Entity 2]**: [What it represents, relationships to other entities]
+- **Subscription**: Representa uma assinatura de feed. Contém a URL do feed, o título exibido, a data da última atualização e o status da última atualização.
+
+- **FeedItem**: Representa uma publicação de um feed RSS ou Atom. Contém título, resumo, data de publicação e link para o conteúdo original. Cada item pertence a uma assinatura.
+
 
 ## Success Criteria *(mandatory)*
 
-<!--
-  ACTION REQUIRED: Define measurable success criteria.
-  These must be technology-agnostic and measurable.
--->
+- 90% dos usuários conseguem adicionar uma URL válida de feed na primeira tentativa.
+- Após a confirmação, 100% das URLs válidas aparecem na lista de assinaturas.
+- A lista de assinaturas é exibida em até 1 segundo após o carregamento da aplicação.
+- O sistema rejeita URLs vazias, inválidas ou com mais de 2048 caracteres em todos os cenários de validação.
+- O sistema interpreta corretamente feeds RSS e Atom válidos.
+- Após uma atualização manual bem-sucedida, os itens mais recentes aparecem em até 5 segundos.
+- Quando uma atualização falha, os itens anteriormente exibidos continuam disponíveis.
+- Um usuário consegue adicionar uma assinatura e visualizar seus itens em menos de 2 minutos, sem treinamento.
 
-### Measurable Outcomes
-
-- **SC-001**: [Measurable metric, e.g., "Users can complete account creation in under 2 minutes"]
-- **SC-002**: [Measurable metric, e.g., "System handles 1000 concurrent users without degradation"]
-- **SC-003**: [User satisfaction metric, e.g., "90% of users successfully complete primary task on first attempt"]
-- **SC-004**: [Business metric, e.g., "Reduce support tickets related to [X] by 50%"]
 
 ## Assumptions
 
-<!--
-  ACTION REQUIRED: The content in this section represents placeholders.
-  Fill them out with the right assumptions based on reasonable defaults
-  chosen when the feature description did not specify certain details.
--->
-
-- [Assumption about target users, e.g., "Users have stable internet connectivity"]
-- [Assumption about scope boundaries, e.g., "Mobile support is out of scope for v1"]
-- [Assumption about data/environment, e.g., "Existing authentication system will be reused"]
-- [Dependency on existing system/service, e.g., "Requires access to the existing user profile API"]
+- Os usuários possuem acesso à internet para consultar e atualizar feeds RSS ou Atom.
+- As URLs adicionadas apontam para feeds públicos e acessíveis.
+- Cada assinatura é identificada exclusivamente pela URL do feed.
+- A aplicação valida a URL antes de adicioná-la à lista de assinaturas.
+- O armazenamento das assinaturas ocorre apenas durante a execução da aplicação; persistência após reinicialização está fora do escopo desta versão.
+- A aplicação não exige autenticação, contas de usuário ou suporte a múltiplos usuários.
+- O sistema exibe mensagens amigáveis quando um feed não pode ser acessado ou processado.
+- O suporte a dispositivos móveis avançado e feeds que exigem autenticação estão fora do escopo desta versão.
