@@ -4,7 +4,7 @@
 
 **Created**: 19-08-2026
 
-**Status**: Draft
+**Status**: Ready for Planning
 
 **Input**: User description: Adicionar assinaturas de feeds RSS com atualização manual, suporte a RSS/Atom, exibição dos itens e tratamento de erros amigável.
 
@@ -39,8 +39,6 @@ Cenários de Aceitação:
 Dado que a aplicação está em execução e a lista de assinaturas está vazia, Quando o usuário informa uma URL válida de feed RSS e a envia, Então a assinatura é adicionada com sucesso e exibida na lista.
 Dado que o usuário informa uma URL inválida ou malformada, Quando tenta adicionar a assinatura, Então a aplicação exibe uma mensagem de validação e não salva a assinatura.
 
-Dado que uma assinatura foi adicionada com sucesso, Quando o usuário reinicia a aplicação, Então a assinatura permanece disponível e visível na lista.
-
 Dado que o usuário informa um valor vazio ou contendo apenas espaços em branco, Quando tenta adicionar a assinatura, Então a aplicação impede o envio e exibe uma mensagem de validação
 
 
@@ -55,26 +53,6 @@ Cenários de Aceitação:
 
 Dado que o usuário possui uma assinatura cadastrada, Quando solicitar a atualização do feed, Então os itens mais recentes devem ser recuperados e exibidos.
 Dado que o feed está indisponível, Quando o usuário tentar atualizá-lo, Então uma mensagem de erro apropriada deve ser apresentada.
-
-
-História de Usuário 3 - Manter Assinaturas Após Reinicialização (Prioridade: P3)
-Como usuário,
-
-Quero que minhas assinaturas sejam mantidas mesmo após fechar e reabrir a aplicação,
-
-Para que eu não precise cadastrá-las novamente sempre que utilizar o sistema.
-
-Por que esta prioridade: A persistência de dados melhora significativamente a experiência do usuário, mas depende da implementação das funcionalidades básicas de cadastro e visualização de assinaturas. Por isso, possui prioridade inferior às funcionalidades essenciais do MVP.
-
-Teste Independente: A funcionalidade pode ser testada adicionando uma ou mais assinaturas, fechando a aplicação, iniciando-a novamente e verificando se todas as assinaturas permanecem disponíveis.
-
-Cenários de Aceitação:
-
-Dado que o usuário adicionou uma ou mais assinaturas, Quando a aplicação é encerrada e iniciada novamente, Então todas as assinaturas anteriormente cadastradas continuam disponíveis.
-Dado que existem assinaturas armazenadas, Quando o usuário acessa a aplicação, Então a lista de assinaturas é carregada automaticamente.
-
-Dado que nenhuma assinatura foi cadastrada anteriormente, Quando a aplicação é iniciada, Então uma lista vazia é exibida sem apresentar erros.
-
 
 
 ### Edge Cases
@@ -135,7 +113,6 @@ Dado que nenhuma assinatura foi cadastrada anteriormente, Quando a aplicação �
 - As URLs adicionadas apontam para feeds públicos e acessíveis.
 - Cada assinatura é identificada exclusivamente pela URL do feed.
 - A aplicação valida a URL antes de adicioná-la à lista de assinaturas.
-- O armazenamento das assinaturas ocorre apenas durante a execução da aplicação; persistência após reinicialização está fora do escopo desta versão.
 - A aplicação não exige autenticação, contas de usuário ou suporte a múltiplos usuários.
 - O sistema exibe mensagens amigáveis quando um feed não pode ser acessado ou processado.
 - O suporte a dispositivos móveis avançado e feeds que exigem autenticação estão fora do escopo desta versão.
